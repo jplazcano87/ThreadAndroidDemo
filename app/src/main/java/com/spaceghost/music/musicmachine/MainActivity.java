@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
   private Button mDownloadButton;
 
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -20,38 +21,17 @@ public class MainActivity extends AppCompatActivity {
 
     mDownloadButton = (Button) findViewById(R.id.downloadButton);
 
-
     mDownloadButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Toast.makeText(MainActivity.this, "Downloading", Toast.LENGTH_SHORT).show();
-
-
-        Runnable runnable = new Runnable() {
-          @Override
-          public void run() {
-            downloadSong();
-          }
-        };
-
-        Thread thread = new Thread(runnable);
-        thread.setName("DownloadThread");
-        thread.start();
+        DownloadThread downloadThread = new DownloadThread();
+        downloadThread.setName("DownloadThread");
+        downloadThread.start();
       }
     });
   }
 
 
-  private void downloadSong() {
-    long endTime = System.currentTimeMillis() + 10 * 1000; // add 10 seconds to the current
-    // system time
-    while (System.currentTimeMillis() < endTime) {
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    }
-    Log.d(TAG, "downloadSong");
-  }
+
 }

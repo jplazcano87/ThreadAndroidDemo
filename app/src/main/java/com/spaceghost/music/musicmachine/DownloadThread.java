@@ -1,5 +1,6 @@
 package com.spaceghost.music.musicmachine;
 
+import android.os.Looper;
 import android.util.Log;
 
 /**
@@ -10,25 +11,14 @@ public class DownloadThread extends Thread {
 
 
   private static final String TAG = DownloadThread.class.getSimpleName();
-  private DownloadHandler mHandler;
+  public DownloadHandler mHandler;
 
   @Override
   public void run() {
-    for (String song : Playlist.songs) {
-      downloadSong(song);
-    }
+    Looper.prepare();
+    mHandler = new DownloadHandler();
+    Looper.loop();
   }
 
-  private void downloadSong(String songName) {
-    long endTime = System.currentTimeMillis() + 10 * 1000; // add 10 seconds to the current
-    // system time
-    while (System.currentTimeMillis() < endTime) {
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    }
-    Log.d(TAG, "downloadSong" + songName);
-  }
+
 }
